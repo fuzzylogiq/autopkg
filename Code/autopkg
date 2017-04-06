@@ -371,7 +371,12 @@ def load_recipe(name, override_dirs, recipe_dirs,
                 recipe["Description"] = child_recipe.get(
                     "Description", recipe.get("Description", ""))
                 for key in child_recipe["Input"].keys():
-                    recipe["Input"][key] = child_recipe["Input"][key]
+                    if key == "pkginfo" and recipe["Input"].get(key):
+                        # Update child pkginfo with keys only in parent
+                        copy = recipe["Input"].get(key)
+                        recipe["Input"][key].update(child_recipe["Input"][key])
+                    else:
+                        recipe["Input"][key] = child_recipe["Input"][key]
 
                 # take the highest of the two MinimumVersion keys, if they exist
                 for candidate_recipe in [recipe, child_recipe]:
