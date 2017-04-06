@@ -373,7 +373,6 @@ def load_recipe(name, override_dirs, recipe_dirs,
                 for key in child_recipe["Input"].keys():
                     if key == "pkginfo" and recipe["Input"].get(key):
                         # Update child pkginfo with keys only in parent
-                        copy = recipe["Input"].get(key)
                         recipe["Input"][key].update(child_recipe["Input"][key])
                     else:
                         recipe["Input"][key] = child_recipe["Input"][key]
